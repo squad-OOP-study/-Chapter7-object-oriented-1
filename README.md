@@ -240,3 +240,105 @@ public class Off implements LaptopState {
 
   - 작성해야 할 코드의 양이 많다. 
       - 추상화 된 모든 메서드를 구현해 줘야 하기 때문에 코드의 양이 많아진다. 
+
+## 데코레이터 패턴
+### 데코레이터 패턴?
+* 데커레이터 패턴은 기본 기능에 추가할 수 있는 기능의 종류가 많은 경우에 각 추가 기능을 Decorator 클래스로 정의한 후 필요한 Decorator 객체를 조합함으로써 추가 기능의 조합을 설계하는 방식이다
+* 프로그램을 실행하는 중에도 Decorator 객체의 조합이 가능하므로 필요한 추가 기능의 조합을 동적으로 생성하는 것도 가능하다.
+
+![image](https://user-images.githubusercontent.com/58967292/156897757-f2eaedb6-2c1a-4096-97a0-fea7b851d0fb.png)
+* Component : 기본 기능을 뜻하는 ConcreteComponent와 추가 기능을 뜻하는 Decorator의 공통 기능을 정의한다. 클라이언트는 Component를 통해 실제 객체를 사용
+* ConcreteComponent : 기본 기능을 구현하는 클래스
+* Decorator : 많은 수가 존재하는 구체적인 Decorator의 공통 기능을 제공
+* ConcreteDecoratorA, ConcreteDecoratorB : Decorator의 하위 클래스로 기본 기능에 추가되는 개별적인 기능을 뜻함
+
+![image](https://user-images.githubusercontent.com/58967292/156897867-ae5faa1b-a138-458a-8a6b-8f94c52e8396.png)
+```
+Component c = new ConcreteComponent();
+Component a = new ConcreteComponentA(c);
+Component b = new ConcreteComponentB(a);
+```
+* Client가 객체 b의 operation() 메서드를 호출하면 객체 b가 가리키는 Component, 즉 ConcreteDecoratorA 객체 a의 operation() 메서드를 호출한다.
+* 객체 a 역시 자신이 가리키는 Component, 즉 ConcreteComponent 객체 c의 operation() 메서드를 호출한 후 자신의 addedBehavior() 메서드를 호출한다.
+* 객체 b 역시 객체 a의 operation() 메서드를 호출한 후 자신의 addedBehavior() 메서드를 호출한다.
+
+
+### 데코레이터 패턴 예시
+```
+public interface Component {
+    String add(); //재료 추가
+}
+```
+```
+public class BaseComponent implements Component {
+
+    @Override
+    public String add() {
+        return "에스프레소";
+    }
+}
+```
+```
+abstract public class Decorator implements Component {
+    private Component coffeeComponent;
+    
+    public Decorator(Component coffeeComponent) {
+        this.coffeeComponent = coffeeComponent;
+    }
+    
+    public String add() {
+        return coffeeComponent.add();
+    }
+}
+```
+```
+public class MilkDecorator extends Decorator {
+    public MilkDecorator(Component coffeeComponent) {
+        super(coffeeComponent);
+    }
+    
+    @Override
+    public String add() {
+        // TODO Auto-generated method stub
+        return super.add() + " + 우유";
+    }
+}
+```
+```
+//물을 추가해주는 클래스
+public class WaterDecorator extends Decorator {
+    public WaterDecorator(Component coffeeComponent) {
+        super(coffeeComponent);
+    }
+    
+    @Override
+    public String add() {
+        // TODO Auto-generated method stub
+        return super.add() + " + 물";
+    }
+}
+```
+```
+public class Main {
+
+    public static void main(String[] args) {
+        Component espresso = new BaseComponent();
+        System.out.println("에스프레소 : " + espresso.add());
+        
+        Component americano = new WaterDecorator(new BaseComponent());
+        System.out.println("아메리카노 : " + americano.add());
+        
+        Component latte = new MilkDecorator(new WaterDecorator(new BaseComponent()));
+        System.out.println("라떼 : " + latte.add());
+    }
+}
+```
+
+### 데코레이퍼 패턴 장단점
+[장점]
+- 기존 코드를 수정하지 않고도 데코레이터 패턴을 통해 행동을 확장시킬 수 있습니다.
+- 구성과 위임을 통해서 실행중에 새로운 행동을 추가할 수 있습니다.
+
+[단점]
+- 자잘한 데코레이터 클래스들이 계속 추가되어 클래스가 많아질 수 있다
+- 데코레이터를 너무 많이 사용하면 코드가 필요 이상으로 복잡해질 수 있습니다.
