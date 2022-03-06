@@ -20,7 +20,8 @@
 |Calculate|Context|가격 계산 기능 책임|사용할 전략 주입 받음|
 |DiscountStrategy|Strategy|가격 할인 알고리즘 추상화||
 
-- <img src ="그림7-1.jpg" width="60%">
+- <img src ="https://user-images.githubusercontent.com/55780251/156905869-40f01531-f6de-46c1-b041-badd7b7320c9.jpg" width="60%">
+
 
 > 특징
 - context의 클라이언트가 context에 사용할 전략을 의존 주입(DI)을 통해서 전달한다.
@@ -29,7 +30,7 @@
 - 전략 객체는 콘텍스트를 사용하는 클라이언트에서 직접 생성한다. 즉, 콘텍스트 사용 클라이언트가 전략 상세 구현에 대해 의존한다.    
  **해당 의존은 문제처럼 보일 수 있으나, 전략 콘크리트 클래스와 클라이언트의 코드가 쌍을 이루기 때문에 유지보수 문제가 발생할 가능성이 줄어든다.**
 
- <img src ="그림7-2.jpg" width="60%">
+ <img src ="https://user-images.githubusercontent.com/55780251/156905870-f4872c86-324e-42ab-9d6a-553dc481eadb.jpg" width="60%">
 
 
 > 전략패턴 사용할 곳
@@ -75,7 +76,7 @@
 - 상태에 따라 동일한 기능 요청 처리를 다르게 할 때 사용할 수 있는 패턴
 - 상태를 별도 타입으로 분리
 - 각 상태 별로 알맞은 하위 타입 구현
-- <img src="./그림7-7.jpg" width="60%">
+- <img src="https://user-images.githubusercontent.com/55780251/156905871-d2417f1e-907b-41aa-b8d3-b4f22988eac0.jpg" width="60%">
 
 > 특징
 - 상태 객체가 기능을 제공한다는 점
@@ -102,7 +103,7 @@
   
 > 특징
 - 위임 방식으로 기능 확장
-- <img src="./그림7-11.jpg" width="60%">
+- <img src="https://user-images.githubusercontent.com/55780251/156905875-1fddfd0c-8a01-4249-8277-f1a322025208.jpg" width="60%">
 - 기능 확장을 위해 Decorator라는 별도 추상클래스 생성
   - 모든 데코레이터를 위한 기반 기능 제공하는 추상 클래스
   - 생성자를 통해 전달받은 객체에 공통 기능 위임
